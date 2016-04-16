@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="jsp2ex1"
+  xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+  version="2.5">
+  <display-name>JSP 2.0 Example 1</display-name>
+  <description>An Example trying to use jsp-prelude and coda while using FrontController pattern</description>
+  <servlet>
+   <servlet-name>controller</servlet-name>
+   <servlet-class>net.codesree.web.FromtController</servlet-class>
+   <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+   <servlet-name>controller</servlet-name>
+   <url-pattern>/*.action</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+   <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  <jsp-config>
+   <jsp-property-group>
+    <url-pattern>/*.action</url-pattern>
+    <include-prelude>header.jsp</include-prelude>
+    <include-coda>footer.jsp</include-coda>
+   </jsp-property-group>
+  </jsp-config>
+  <security-constraint>
+   <display-name>JSP 2.0 Security constraint example</display-name>
+   <web-resource-collection>
+    <web-resource-name>Entire Application</web-resource-name>
+    <url-pattern>/*.action</url-pattern>
+    <!-- If you list http methods, only those methods are protected -->
+    <http-method>DELETE</http-method>
+    <http-method>GET</http-method>
+    <http-method>POST</http-method>
+    <http-method>PUT</http-method>
+   </web-resource-collection>
+   <auth-constraint>
+    <!-- Anyone with one of the listed roles may access this area -->
+    <role-name>tomcat</role-name>
+   </auth-constraint>
+  </security-constraint>
+  <!-- Security roles referenced by this web application -->
+  <security-role>
+   <role-name>tomcat</role-name>
+  </security-role>
+</web-app>

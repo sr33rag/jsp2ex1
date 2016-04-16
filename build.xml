@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jsp2ex1" basedir="." default="init">
+ 
+ <!-- Properties Start -->
+ <property name="src.dir" value="src\main\java"/>
+ <property name="resource.dir" value="resource"/>
+ <property name="build.dir" value="build"/>
+ <property name="dist.dir" value="dist"/>
+ <property name="dist.dir" value="dist"/>
+ <property name="tomcat.dir" value="C:\xampp\tomcat"/>
+ <property name="web.dir" value="webapp"/>
+ <!-- Properties End -->
+ <tstamp prefix="build-info">
+   <format property="current-date" pattern="d-MMMM-yyyy" locale="en"/>
+   <format property="current-time" pattern="hh:mm:ss a z" locale="en"/>
+   <format property="year-month-day" pattern="yyy-MM-dd" locale="en"/>
+ </tstamp>
+ <!-- Classpaths definition start -->
+ <path id="compile.classpath">
+   <fileset dir="${tomcat.dir}/lib" includes="*.jar"/>
+ </path>
+ <!-- Classpaths definition stop -->
+ <!-- Targets Start -->
+ <target name="init" description="Initialises the project directory">
+  <mkdir dir="${build.dir}"/>
+  <mkdir dir="${dist.dir}"/>
+ </target>
+ 
+ <!-- Clean -->
+ <target name="clean" description="Cleans the project directory">
+  <delete dir="${build.dir}"/>
+  <delete dir="${dist.dir}"/>
+ </target>
+ 
+ <target name="compile" description="Initialises the project directory" depends="clean, init">
+  <javac srcdir="${src.dir}"
+    destdir="${build.dir}"
+    verbose="no"
+    includeantruntime="true">
+    <classpath refid="compile.classpath"/>
+  </javac>
+  <jar jarfile="${lib.dir}/${jar-file}"
+      basedir="${build.dir}">
+     <manifest>
+       <attribute name="Built-By" value="${builder}"/>
+       <attribute name="Built-On" value="${build-info.current-date}"/>
+       <attribute name="Built-At" value="${build-info.current-time}"/>
+     </manifest>
+   </jar>
+ </target>
+ 
+ <target name="buildWar" description="Builds the project distributable" depends="compile">
+   <echo>Preparing and Building project distributable from compiled classes and web documents</echo>
+   <echo></echo>
+   <war destfile="${dist.dir}/${war-file}" needswebxml="true" webxml="${web-xml-file}">
+     <!--classes dir="${build.dir}"/-->
+     <lib dir="${lib.dir}"/>
+     <fileset dir="${web.dir}">
+       <!--Need to exclude it since webxml is an attribute of the war tag above-->
+       <exclude name="${web.dir}/WEB-INF/web.xml"/>
+     </fileset>
+     <manifest>
+       <attribute name="Built-By" value="${builder}"/>
+       <attribute name="Built-On" value="${build-info.current-date}"/>
+       <attribute name="Built-At" value="${build-info.current-time}"/>
+     </manifest>
+   </war>
+ </target>
+ 
+ <target name="doc" description="Compiles the source documentation into project document files" depends="compile">
+   <echo>Compiling the source documentation into project API document files</echo>
+   <echo></echo>
+   <javadoc packagenames="${packages}"
+      sourcepath="${src.dir}"
+      destdir="${doc.dir}"
+      author="true"
+      version="true"
+      windowtitle="${Name} API"
+      doctitle="${Name}"
+      bottom="Copyright © 2000 GroupServe. All Rights Reserved."/>
+ </target>
+ 
+</project>
