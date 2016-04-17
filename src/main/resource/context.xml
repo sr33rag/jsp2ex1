@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/jsp2ex1" reloadable="true" debug="5" crossContext="false">
+ <Resource name="jdbc/jsp2ex1derbydb"
+   auth="Container"
+   type="javax.sql.DataSource"
+   factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+   driverClassName="org.apache.derby.jdbc.ClientDriver"
+   url="jdbc:derby://localhost:1527/[]db_path]/db"
+   user="unni"
+   password="test"
+   initialSize="1"
+   maxActive=""
+   maxIdle="2"
+   minIdle="1"
+   maxWait="1000"
+   validationQuery="SELECT 1"
+   validationInterval="34000"
+   testOnBorrow="true"
+   removeAbandoned="true"
+   jdbcInterceptors="ConnectionState;StatementCache=(prepared=true,callable=true)"/>
+</Context>
